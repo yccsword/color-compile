@@ -10,14 +10,34 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define BUF_SIZE	2048
-#define CAT_SIZE	1024
+int auto_cat(char ** target, int target_size, char * src, int src_len)
+{
+	  char * buf = NULL;
+	  char * org = *target;
+	  int buf_size = src_len + target_size;
+		buf = realloc(org, buf_size + 1);
+		if (buf != NULL)
+		{
+				org = buf;
+				*target = org;
+		}
+		else
+		{
+				printf("buf malloc error!\n");
+				return -1;	
+		}
+		memcpy(org + target_size, src, src_len);
+		org[buf_size] = '\0';
+		//printf("org:%s org_size:%d src:%s src_len:%d\n", org, target_size, src, src_len);
+		return buf_size;
+}
 
 
-int main(int argc, char const *argv[])
+int main(int argc, char *argv[])
 {
 	int i;
-	char buf[BUF_SIZE];
+	char * buf = NULL;
+	int buf_size = 0;
 
 	if (argc < 2 || 0 != strcmp(argv[0], "color_compile") )
 	{
@@ -32,21 +52,18 @@ int main(int argc, char const *argv[])
 		system("make menuconfig");
 		return 0;
 	}
-	
 	// copy cmd
-	buf[0] = '\0';
+	//buf[0] = '\0';
 	for (i = 1; i < argc; ++i)
 	{
-		strncat(buf, argv[i], CAT_SIZE);
-		strncat(buf, " ", CAT_SIZE);
+		buf_size = auto_cat(&buf, buf_size, argv[i], strlen(argv[i]));
+		buf_size = auto_cat(&buf, buf_size, " ", strlen(" "));
 	}
 
 	// add out_color_info
-	strncat(buf, "2>&1 | out_color_info", CAT_SIZE);
-
+	buf_size = auto_cat(&buf, buf_size, "2>&1 | out_color_info", strlen("2>&1 | out_color_info"));
+	//printf("buf:%s\n", buf);
 	// true exec
-	system(buf);
-
-	return 0;
+	return system(buf);
 }
 

@@ -21,12 +21,13 @@ clean:
 	rm -f *.o $(OBJ)
 
 install:
-	cp color_compile /usr/local/bin/
-	cp out_color_info /usr/local/bin/
+	cp -f color_compile ~/.bin/bin
+	cp -f out_color_info ~/.bin/bin
 
-	echo 'alias gcc="color_compile gcc"' >> $(SH_CONFIG)
-	echo 'alias g++="color_compile g++"' >> $(SH_CONFIG)
-	echo 'alias make="color_compile make"' >> $(SH_CONFIG)
+	#echo 'alias gcc="color_compile gcc"' >> $(SH_CONFIG)
+	#echo 'alias g++="color_compile g++"' >> $(SH_CONFIG)
+	#echo 'alias make="color_compile make"' >> $(SH_CONFIG)
+	#echo 'alias arm-openwrt-linux-uclibcgnueabi-gcc="color_compile make"' >> $(SH_CONFIG)
 
 TEST:
 	gcc test.c -Wall
