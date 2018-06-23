@@ -197,6 +197,7 @@ int main(void)
 	int i;
 	int len;
 	char *p;
+	int result = 0;
 
 	while (1)
 	{
@@ -227,6 +228,7 @@ int main(void)
 			if (NULL != (p = strstr(line, MAKE_SIGN)) )
 			{
 				color_print_make_error(line, p);
+				result = -2;
 				continue;
 			}
 		}
@@ -237,6 +239,7 @@ int main(void)
 			if (NULL != (p = strstr(line, Mark[i].mark)) )
 			{
 				color_print_line(line, p, i);
+				result = -1;
 				break;
 			}
 		}
@@ -247,6 +250,6 @@ int main(void)
 		}
 	}
 	
-	return 0;
+	return result;
 }
 
