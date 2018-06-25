@@ -239,7 +239,10 @@ int main(void)
 			if (NULL != (p = strstr(line, Mark[i].mark)) )
 			{
 				color_print_line(line, p, i);
-				result = -1;
+				if (strstr(Mark[i].mark, ERROR) != NULL || strstr(Mark[i].mark, ERROR_CN) != NULL)
+				{
+					result = -1;
+				}
 				break;
 			}
 		}
